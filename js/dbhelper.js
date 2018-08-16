@@ -8,7 +8,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 3000 // Change this to your server port
+    const port = 1337 // Change this to your server port
 
     // Adding condition to return the appropriate location of json file
     let location = window.location.protocol + '//';

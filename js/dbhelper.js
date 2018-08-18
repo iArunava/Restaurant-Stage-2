@@ -1,6 +1,9 @@
 /**
  * Common database helper functions.
  */
+
+import idb from 'idb';
+
 class DBHelper {
 
   /**
@@ -9,17 +12,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-
-    // Adding condition to return the appropriate location of json file
-    let location = window.location.protocol + '//';
-    location += window.location.host;
-    if (window.location.pathname[window.location.pathname.length-1] == '/') {
-        location += window.location.pathname;
-    } else {
-        /*location += '/'; */ // TODO: Replace by regex
-        location += '/'; // Little hack
-    }
-    return `${location}data/restaurants.json`;
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
@@ -30,15 +23,14 @@ class DBHelper {
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        const restaurants = JSON.parse(xhr.responseText);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
       }
     };
-    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     xhr.send();
   }
 
@@ -123,7 +115,6 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        console.log(restaurants);
         // Get all neighborhoods from all restaurants
         const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
         // Remove duplicates from neighborhoods

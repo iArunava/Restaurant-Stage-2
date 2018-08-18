@@ -19,7 +19,8 @@ self.addEventListener('install', (event) => {
                 'js/restaurant_info.js',
                 'js/setServiceWorker.js',
                 'css/styles.css',
-                'data/restaurants.json',
+                // TODO: Use IndexDB
+                //'https://localhost:1337/restaurants',
                 'img/1.jpg',
                 'img/2.jpg',
                 'img/3.jpg',

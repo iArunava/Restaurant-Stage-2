@@ -15,23 +15,56 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static initIDB() {
+      return idb.open('restautants-db', 1, (upgradeDb) => {
+          switch (upgradeDb.oldVersion) {
+              case 0:
+                  upgradeDb.createObjectStore('restaurants');
+          }
+      })
+  }
+
+  static getRestautantsFromDB(idbPromise) {
+      return idbPromise.then((db) => {
+          if (!db) return;
+          let tx = db.transaction('restautants');
+          let restaurantsStore = tx.objectStore('restaurants');
+          restaurantsStore.get(restaurants, 'restautants-json');
+      });
+  }
+
+  static updateRestaurantsInDB(restaurants, idbPromise) {
+      return idbPromise.then((db) => {
+          if (!db) return;
+          let tx = db.transaction('restaurants', 'readwrite');
+          let restaurantsStore = tx.objectStore('restaurants');
+          restaurantsStore.put(restaurants, 'restaurants-json');
+          tx.complete;
+      });
+  }
+
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
+    const idbPromise = DBHelper.initIDB();
+
+    DBHelper.getRestautantsFromDB(idbPromise).then((restaurants) => {
+        if (restaurants && restaurants.length > 0) {
+            callback(null, restaurants);
+        } else {
+            return fetch(DBHelper.DATABASE_URL);
+        }
+    }).then(response => {
+        if (!response) return;
+        return response.json();
+    }).then(restautantsJson => {
+        if (!restautantsJson) return;
+        DBHelper.updateRestaurants(restautantsJson, idbPromise);
+        callback(null, restautants);
+    }).catch((error) => {
         callback(error, null);
-      }
-    };
-    //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    xhr.send();
+    });
   }
 
   /**

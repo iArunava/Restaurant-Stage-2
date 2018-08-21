@@ -18,9 +18,8 @@ self.addEventListener('install', (event) => {
                 'js/dbhelper.js',
                 'js/restaurant_info.js',
                 'js/setServiceWorker.js',
+                'js/idb.js',
                 'css/styles.css',
-                // TODO: Use IndexDB
-                //'https://localhost:1337/restaurants',
                 'img/1.jpg',
                 'img/2.jpg',
                 'img/3.jpg',
@@ -36,6 +35,7 @@ self.addEventListener('install', (event) => {
         })
     );
 });
+
 
 self.addEventListener('fetch', (event) => {
     let reg = new RegExp('(.*)?=(\\d*)');

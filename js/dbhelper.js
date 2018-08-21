@@ -2,8 +2,6 @@
  * Common database helper functions.
  */
 
-import idb from 'idb';
-
 class DBHelper {
 
   /**
@@ -16,7 +14,7 @@ class DBHelper {
   }
 
   static initIDB() {
-      return idb.open('restautants-db', 1, (upgradeDb) => {
+      return idb.open('restaurants-db', 1, (upgradeDb) => {
           switch (upgradeDb.oldVersion) {
               case 0:
                   upgradeDb.createObjectStore('restaurants');
@@ -24,12 +22,12 @@ class DBHelper {
       })
   }
 
-  static getRestautantsFromDB(idbPromise) {
+  static getrestaurantsFromDB(idbPromise) {
       return idbPromise.then((db) => {
           if (!db) return;
-          let tx = db.transaction('restautants');
+          let tx = db.transaction('restaurants');
           let restaurantsStore = tx.objectStore('restaurants');
-          restaurantsStore.get(restaurants, 'restautants-json');
+          restaurantsStore.get(restaurantsStore, 'restaurants-json');
       });
   }
 
@@ -49,7 +47,7 @@ class DBHelper {
   static fetchRestaurants(callback) {
     const idbPromise = DBHelper.initIDB();
 
-    DBHelper.getRestautantsFromDB(idbPromise).then((restaurants) => {
+    DBHelper.getrestaurantsFromDB(idbPromise).then((restaurants) => {
         if (restaurants && restaurants.length > 0) {
             callback(null, restaurants);
         } else {
@@ -58,10 +56,10 @@ class DBHelper {
     }).then(response => {
         if (!response) return;
         return response.json();
-    }).then(restautantsJson => {
-        if (!restautantsJson) return;
-        DBHelper.updateRestaurants(restautantsJson, idbPromise);
-        callback(null, restautants);
+    }).then(restaurantsJson => {
+        if (!restaurantsJson) return;
+        DBHelper.updateRestaurantsInDB(restaurantsJson, idbPromise);
+        callback(null, restaurantsJson);
     }).catch((error) => {
         callback(error, null);
     });

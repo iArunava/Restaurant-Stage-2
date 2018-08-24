@@ -65,9 +65,6 @@ fetchRestaurantFromURL = (callback) => {
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
     document.getElementById('map')
-            .setAttribute('aria-describedby',
-                          'Map of the restaurant ' + restaurant.name);
-
     const name = document.getElementById('restaurant-name');
     name.setAttribute('tabindex', 0);
     name.setAttribute('aria-label', restaurant.name);
@@ -75,8 +72,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
     const address = document.getElementById('restaurant-address');
     address.setAttribute('tabindex', 0);
-    address.setAttribute('aria-describedby',
-                    'Address of ' + restaurant.name + ' is ' + restaurant.address);
     address.innerHTML = restaurant.address;
 
     const image = document.getElementById('restaurant-img');
@@ -86,8 +81,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
     const cuisine = document.getElementById('restaurant-cuisine');
     cuisine.setAttribute('tabindex', 0);
-    cuisine.setAttribute('aria-describedby',
-                    'Cuisine of ' + restaurant.name + ' is ' + restaurant.address);
     cuisine.innerHTML = restaurant.cuisine_type;
 
     // fill operating hours

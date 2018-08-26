@@ -17,7 +17,7 @@ class DBHelper {
       return idb.open('restaurants-db', 1, (upgradeDb) => {
           switch (upgradeDb.oldVersion) {
               case 0:
-                  upgradeDb.createObjectStore('restaurants');
+                  upgradeDb.createObjectStore('restaurants-json');
           }
       })
   }
@@ -25,17 +25,17 @@ class DBHelper {
   static getrestaurantsFromDB(idbPromise) {
       return idbPromise.then((db) => {
           if (!db) return;
-          let tx = db.transaction('restaurants');
-          let restaurantsStore = tx.objectStore('restaurants');
-          restaurantsStore.get(restaurantsStore, 'restaurants-json');
+          let tx = db.transaction('restaurants-json');
+          let restaurantsStore = tx.objectStore('restaurants-json');
+          restaurantsStore.get('restaurants-json');
       });
   }
 
   static updateRestaurantsInDB(restaurants, idbPromise) {
       return idbPromise.then((db) => {
           if (!db) return;
-          let tx = db.transaction('restaurants', 'readwrite');
-          let restaurantsStore = tx.objectStore('restaurants');
+          let tx = db.transaction('restaurants-json', 'readwrite');
+          let restaurantsStore = tx.objectStore('restaurants-json');
           restaurantsStore.put(restaurants, 'restaurants-json');
           tx.complete;
       });

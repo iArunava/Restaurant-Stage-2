@@ -184,7 +184,9 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    let photo_name = restaurant.photograph;
+    if (photo_name === undefined) photo_name = "10";
+    return (`/img/${photo_name}.jpg`);
   }
 
   /**

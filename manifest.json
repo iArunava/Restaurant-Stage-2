@@ -3,9 +3,19 @@
     "name" : "Restaurant Reviews",
     "icons" : [
         {
-            "src" : "/icons/icon-192.png",
+            "src" : "/icons/diet-128.png",
             "type" : "image/png",
-            "sizes" : "192x192"
+            "sizes" : "128x128"
+        },
+        {
+            "src" : "/icons/diet-256.png",
+            "type" : "image/png",
+            "sizes" : "256x256"
+        },
+        {
+            "src" : "/icons/diet-512.png",
+            "type" : "image/png",
+            "sizes" : "512x512"
         }
     ],
 

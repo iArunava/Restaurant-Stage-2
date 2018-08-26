@@ -30,6 +30,7 @@ self.addEventListener('install', (event) => {
                 'img/8.jpg',
                 'img/9.jpg',
                 'img/10.jpg',
+                'icons/diet-128.png',
                 'https://fonts.gstatic.com/s/quicksand/v7/6xKtdSZaM9iE8KbpRA_hK1QN.woff2'
             ]);
         })
